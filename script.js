@@ -219,40 +219,6 @@ function filterGallery(category) {
     }, 300);
 }
 
-// Fitur: Sistem Suka Foto Menggunakan Browser Storage
-function toggleLike(event, element) {
-    event.stopPropagation(); // Mencegah lightbox terbuka saat klik tombol like
-    const photoId = element.getAttribute('data-id');
-    const heartIcon = element.querySelector('.heart-icon');
-    const countDisplay = element.querySelector('.like-count');
-    
-    let isLiked = localStorage.getItem(photoId) === 'true';
-    
-    if (!isLiked) {
-        localStorage.setItem(photoId, 'true');
-        element.classList.add('liked');
-        heartIcon.innerText = '♥';
-        countDisplay.innerText = '1';
-    } else {
-        localStorage.removeItem(photoId);
-        element.classList.remove('liked');
-        heartIcon.innerText = '♡';
-        countDisplay.innerText = '0';
-    }
-}
-
-// Memeriksa status foto yang sudah disukai sebelumnya saat halaman dimuat
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.like-btn').forEach(btn => {
-        const photoId = btn.getAttribute('data-id');
-        if (localStorage.getItem(photoId) === 'true') {
-            btn.classList.add('liked');
-            btn.querySelector('.heart-icon').innerText = '♥';
-            btn.querySelector('.like-count').innerText = '1';
-        }
-    });
-});
-
 // Fitur: Efek Muncul Otomatis Saat Di-scroll (Intersection Observer)
 document.addEventListener("DOMContentLoaded", function () {
     const targetElements = document.querySelectorAll(".reveal-element");
