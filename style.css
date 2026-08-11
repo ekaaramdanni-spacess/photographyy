@@ -660,22 +660,6 @@ body::before {
     animation: shutterOpen 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.gallery-item { position: relative; }
-.like-btn {
-    position: absolute;
-    bottom: 15px; right: 15px;
-    background: rgba(0,0,0,0.7);
-    border: 1px solid #333; color: #fff;
-    padding: 6px 12px; font-size: 0.8rem;
-    border-radius: 20px; cursor: pointer;
-    z-index: 5; display: flex; align-items: center; gap: 5px;
-    transition: all 0.2s;
-}
-/* Gaya visual ketika tombol hati sudah diklik */
-.like-btn.liked {
-    background: #ff3333; border-color: #ff3333;
-}
-
 /* --- Kontainer Utama Sosial Media --- */
 .social-links-container {
     margin-top: 40px;
