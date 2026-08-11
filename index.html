@@ -9,16 +9,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <!-- Pop-up Sambutan Awal -->
-    <div id="welcome-popup" class="welcome-popup-overlay">
-        <div class="welcome-popup-box">
+    <!-- Halaman Pemuatan Sinematik Layar Penuh -->
+    <div id="app-preloader" class="preloader-overlay">
+        <div class="preloader-content">
+            <!-- Logo Utama Anda di Tengah Layar -->
+            <div class="preloader-logo">STREET PICTURES PEOPLE</div>
             
-            <div class="popup-content">
-                <span class="popup-icon">📸</span>
-                <h2>Welcome to SP²</h2>
-                <p>Untuk pengalaman visual terbaik, mohon gulir halaman ini secara perlahan.</p>
-                <div class="popup-countdown-bar"></div> <!-- Garis loading indikator 5 detik -->
+            <!-- Bar Pemuatan Minimalis -->
+            <div class="preloader-bar-container">
+                <div id="preloader-progress" class="preloader-progress-bar"></div>
             </div>
+            
+            <!-- Indikator Angka Persentase -->
+            <div id="preloader-percentage" class="preloader-text">0%</div>
         </div>
     </div>
 
