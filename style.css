@@ -906,71 +906,76 @@ body::before {
 }
 
 
-/* --- Gaya Desain Pop-up Sambutan (Glassmorphism) --- */
-.welcome-popup-overlay {
+/* --- Halaman Pemuatan Sinematik Layar Penuh --- */
+.preloader-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Latar belakang luar dibuat gelap redup */
-    z-index: 99999; /* Berada di atas seluruh elemen, termasuk kursor kustom jika ada */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #050505; /* Hitam pekat murni khas ruang gelap */
+    z-index: 999999; /* Dipastikan berada di paling atas menutupi semua elemen */
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 1;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, filter;
 }
 
-.welcome-popup-box {
-    background: rgba(255, 255, 255, 0.05); /* Efek kaca transparan */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px 30px;
-    max-width: 400px;
-    width: 90%;
+/* Kelas khusus yang dipicu JavaScript saat loading selesai 100% */
+.preloader-overlay.fade-out {
+    opacity: 0;
+    filter: blur(20px); /* Efek memudar dengan kabur sinematik */
+    pointer-events: none;
+}
+
+.preloader-content {
     text-align: center;
-    position: relative;
-    border-radius: 8px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    animation: fadeInUp 0.5s ease forwards;
+    width: 80%;
+    max-width: 300px;
 }
 
-/* Tombol Tutup X */
-.popup-close-btn {
-    position: absolute;
-    top: 15px; right: 20px;
-    background: none; border: none;
-    color: #888; font-size: 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-.popup-close-btn:hover {
+/* Animasi Logo Menyala Berkedip Lembut (Pulsing Glow) */
+.preloader-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 6px;
     color: #ffffff;
+    margin-bottom: 30px;
+    animation: logoPulse 2s infinite alternate;
 }
 
-/* Isi Konten */
-.popup-icon { font-size: 2.5rem; display: block; margin-bottom: 15px; }
-.popup-content h2 { font-size: 1.6rem; font-weight: 400; margin-bottom: 12px; letter-spacing: 1px; }
-.popup-content p { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
-
-/* Animasi Garis Durasi Waktu (Countdown Bar) selama 5 detik */
-.popup-countdown-bar {
-    width: 100%; height: 2px;
-    background-color: rgba(255, 255, 255, 0.1);
-    position: relative; overflow: hidden;
-}
-.popup-countdown-bar::after {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: #ff3333; /* Warna merah penanda durasi habis */
-    animation: countdown 10s linear forwards;
-    transform-origin: left;
+/* Jalur Bar Abu-Abu Gelap */
+.preloader-bar-container {
+    width: 100%;
+    height: 2px;
+    background-color: #1a1a1a;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 12px;
 }
 
-@keyframes countdown {
-    from { transform: scaleX(1); }
-    to { transform: scaleX(0); }
+/* Bar Indikator Putih yang Memanjang */
+.preloader-progress-bar {
+    width: 0%; /* Diatur dinamis dari 0 ke 100 lewat JS */
+    height: 100%;
+    background-color: #ffffff;
+    transition: width 0.1s linear; /* Membuat pergerakan bar terasa mulus */
+}
+
+/* Teks Angka Monospace Mesin Tik */
+.preloader-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    color: #555555;
+    letter-spacing: 1px;
+}
+
+@keyframes logoPulse {
+    0% { opacity: 0.4; filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)); }
+    100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(255,255,255,0.6)); }
 }
 
 /* --- Kotak Kritik & Saran Melayang --- */
