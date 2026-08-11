@@ -247,33 +247,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Fitur: Pop-up Sambutan Awal Otomatis 5 Detik
-let popupTimer;
-
+// Fitur: Simulasi Loading Screen Sinematik Layar Penuh
 document.addEventListener("DOMContentLoaded", function() {
-    const popup = document.getElementById("welcome-popup");
-    
-    if (popup) {
-        // Otomatis jalankan fungsi tutup pop-up setelah 5000 milidetik (5 detik)
-        popupTimer = setTimeout(() => {
-            closeWelcomePopup();
-        }, 10000);
+    const preloader = document.getElementById("app-preloader");
+    const progressBar = document.getElementById("preloader-progress");
+    const progressText = document.getElementById("preloader-percentage");
+
+    if (preloader && progressBar && progressText) {
+        let count = 0;
+        const targetDuration = 3000; // Total waktu muat: 3000ms (3 detik)
+        const intervalTime = 30; // Interval pembaruan angka setiap 30ms
+        const incrementStep = 100 / (targetDuration / intervalTime);
+
+        // Jalankan interval perhitungan angka 0% sampai 100%
+        const loadingInterval = setInterval(() => {
+            count += incrementStep;
+            
+            if (count >= 100) {
+                count = 100;
+                clearInterval(loadingInterval);
+                
+                // Beri jeda mikro 200ms saat menyentuh angka 100% untuk kepuasan visual sebelum menghilang
+                setTimeout(() => {
+                    preloader.classList.add("fade-out");
+                }, 200);
+            }
+
+            // Tempelkan hasil kalkulasi angka ke visual CSS dan Teks HTML
+            const currentPercentage = Math.floor(count);
+            progressBar.style.width = `${currentPercentage}%`;
+            progressText.innerText = `${currentPercentage}%`;
+
+        }, intervalTime);
     }
 });
-
-function closeWelcomePopup() {
-    const popup = document.getElementById("welcome-popup");
-    if (popup) {
-        // Hentikan timer cadangan jika user menutup pop-up secara manual lewat tombol X
-        clearTimeout(popupTimer); 
-        
-        // Berikan efek memudar sebelum menghilang total dari layar
-        popup.style.opacity = "0";
-        setTimeout(() => {
-            popup.style.display = "none";
-        }, 5000); // Sinkron dengan durasi transition opacity CSS (0.5s)
-    }
-}
 
 // Fitur: Buka/Tutup Kotak Feedback
 function toggleFeedbackBox() {
