@@ -1,0 +1,1076 @@
+/* Reset Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+    background-color: #0d0d0d; /* Hitam pekat sangat bagus untuk street photography */
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Navigasi Melayang dengan Efek Kaca (Glassmorphism) */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    
+    /* Membuat header melayang tetap di atas saat di-scroll */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    /* Trik Efek Kaca: Warna latar putih/hitam transparan + blur */
+    background-color: rgba(13, 13, 13, 0.6); /* Hitam transparan 60% */
+    backdrop-filter: blur(12px); /* Mengaburkan objek di belakangnya */
+    -webkit-backdrop-filter: blur(12px); /* Dukungan untuk browser Safari */
+    
+    /* Garis pembatas bawah tipis agar efek kaca lebih tegas */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07); 
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+nav a {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    text-decoration: none;
+    color: #ffffff;
+    margin: 4px;
+}
+
+/* Membuat garis bawah transparan yang menciut di tengah */
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 0; height: 1px; /* Tebal garis 1px */
+    background-color: #ffffff;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+/* Regangkan garis ke samping saat menu disentuh */
+nav a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+
+/* Hero Section */
+.hero {
+    padding: 100px 5% 60px 5%;
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.hero p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+/* Filter Tombol */
+.filter-container {
+    padding: 0 5% 30px 5%;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 0.9rem;
+    margin-right: 20px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    transition: color 0.3s;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+/* Kontainer Utama Galeri dengan Batasan Tampilan & Scroll Internal */
+.gallery-grid {
+    display: grid;
+    /* Memaksa grid selalu memiliki 4 kolom ke samping di layar desktop */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    padding: 10px 5%;
+    
+    /* Membatasi tinggi galeri (Asumsi aspek rasio foto 3:2 + celah/gap) */
+    max-height: 750px; 
+    
+    /* Mengaktifkan scrollbar vertikal hanya di dalam galeri */
+    overflow-y: auto; 
+    scroll-behavior: smooth;
+}
+
+/* Kustomisasi tampilan scrollbar agar tetap minimalis (opsional) */
+.gallery-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.gallery-grid::-webkit-scrollbar-track {
+    background: #0d0d0d;
+}
+.gallery-grid::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+.gallery-grid::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Item Galeri */
+.gallery-item {
+    overflow: hidden;
+    background-color: #1a1a1a;
+    aspect-ratio: 3 / 2;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: transform 0.9s ease, filter 0.6s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+    filter: grayscale(0%);
+}
+
+/* --- RESPONSIVE: Penyesuaian Otomatis di Layar HP --- */
+@media (max-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 kolom untuk tablet */
+        max-height: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk HP agar tidak kekecilan */
+        max-height: 500px; /* Batasan tinggi di HP lebih pendek */
+        gap: 8px;
+        padding: 5px 5%;
+    }
+}
+
+/* --- Animasi Efek Transisi Filter Kategori --- */
+.gallery-item {
+    /* Tambahkan properti transisi ke dekorasi dasar gallery-item Anda */
+    transition: transform 0.9s ease, filter 0.6s ease, opacity 0.4s ease, transform 0.4s ease;
+    opacity: 1;
+}
+
+/* Keadaan saat foto disembunyikan (Memudar & Mengecil sedikit) */
+.gallery-item.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Mencegah foto diklik saat tidak terlihat */
+}
+
+/* Keadaan saat foto dimunculkan kembali */
+.gallery-item.fade-in {
+    opacity: 1;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #444;
+    font-size: 0.8rem;
+    border-top: 1px solid #1a1a1a;
+}
+
+
+/* --- Sistem Animasi Scroll Murni CSS + JS --- */
+
+/* Keadaan Awal (Sembunyi, Turun ke Bawah, dan Transparan) */
+.reveal-element {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform; /* Optimalisasi grafis browser */
+}
+
+/* Keadaan Akhir (Muncul Sempurna saat di-scroll) */
+.reveal-element.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Efek Jeda Berantai (Staggered Delay) agar muncul bergantian */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* --- Gaya Desain Halaman Kontak --- */
+.contact-section {
+    padding: 100px 5%;
+    background-color: #111111; /* Sedikit lebih terang dari latar galeri untuk kontras */
+    display: flex;
+    justify-content: center;
+}
+
+.contact-container {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.contact-container h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    font-weight: 400;
+}
+
+.contact-container p {
+    color: #888;
+    margin-bottom: 40px;
+}
+
+/* --- Animasi Sukses Form Kontak Sinematik --- */
+.contact-form {
+    position: relative;
+    min-height: 350px; /* Menjaga tinggi kotak form agar stabil saat transisi */
+}
+
+.form-inner-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+/* Kelas rahasia untuk memudarkan isi form via JavaScript */
+.form-inner-wrapper.fade-out {
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+/* Kontainer Tampilan Sukses */
+.form-success-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Kelas rahasia untuk menyalakan tampilan sukses via JavaScript */
+.form-success-overlay.fade-in {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+/* Ikon Animasi Berkedip Premium */
+.success-icon {
+    font-size: 3.5rem;
+    color: #00ff66; /* Warna hijau neon radar cyber */
+    margin-bottom: 15px;
+    animation: pulseGlow 2s infinite alternate;
+}
+
+.form-success-overlay h3 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.form-success-overlay p {
+    color: #888888;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(0, 255, 102, 0.4)); }
+    100% { transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(0, 255, 102, 0.8)); }
+}
+
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: #ffffff;
+}
+
+.submit-btn {
+    background-color: #ffffff;
+    color: #0d0d0d;
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #cccccc;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* --- Media Queries: Optimasi Layar HP / Mobile (Sangat Penting) --- */
+@media (max-width: 768px) {
+    header {
+        /* Tetap paksa berjejer ke samping (row), JANGAN ubah ke column */
+        flex-direction: row; 
+        justify-content: space-between; /* Logo di kiri pekat, menu di kanan pekat */
+        align-items: center;
+        padding: 20px 5%; /* Perkecil padding atas bawah di HP agar ringkas */
+    }
+
+    .logo {
+        font-size: 1.2rem; /* Perkecil sedikit ukuran font logo di HP agar muat */
+        text-align: left;
+    }
+
+    nav {
+        display: flex;
+        gap: 15px; /* Beri jarak konsisten antar menu di HP */
+    }
+
+    nav a {
+        margin: 0; /* Hapus margin kiri lama agar kalkulasi gap lebih akurat */
+        font-size: 0.85rem; /* Perkecil sedikit teks menu di HP */
+    }
+
+
+    .hero {
+        padding: 60px 5% 40px 5%;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Grid mengecil di HP */
+        gap: 10px;
+        padding-bottom: 60px;
+    }
+
+    .filter-container {
+        white-space: nowrap;
+        overflow-x: auto; /* Menu filter bisa digeser kesamping di HP jika kepanjangan */
+        padding-bottom: 20px;
+    }
+    
+    .lightbox img {
+        max-width: 95%;
+    }
+}
+
+/* Teks EXIF di pojok bawah foto saat di-hover */
+.gallery-item { position: relative; }
+.gallery-item::after {
+    content: attr(data-exif-info);
+    position: absolute;
+    bottom: 10px; left: 10px;
+    background: rgba(0,0,0,0.7);
+    color: #fff; padding: 5px 10px;
+    font-size: 0.75rem; font-family: monospace;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+
+/* Kontainer Utama */
+.before-after-container {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    aspect-ratio: 3 / 2; /* Menyesuaikan aspek rasio foto street */
+    margin: 50px auto;
+    overflow: hidden;
+    user-select: none;
+    border: 1px solid #222;
+}
+
+/* Pengaturan Foto */
+.before-after-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Pembungkus Foto "Before" yang bisa mengecil saat digeser */
+.img-before-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%; /* Mulai dari tengah (50%) */
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Paksa ukuran foto di dalam wrapper tetap penuh agar tidak ikut mengkerut */
+.img-before-wrapper .img-before {
+    width: 800px; /* Harus sama dengan max-width kontainer */
+    max-width: none;
+}
+
+/* Garis Pembatas Vertikal */
+.slider-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 2;
+    pointer-events: none; /* Biar input range di bawahnya tetap bisa diklik */
+}
+
+/* Tombol Bulat di Tengah Garis */
+.handle-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Input Range Transparan yang Menutupi Seluruh Area */
+.slider-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Dibuat tidak terlihat tapi tetap bisa digeser */
+    cursor: ew-resize;
+    z-index: 3;
+}
+
+/* Perbaikan Responsif untuk Layar HP */
+@media (max-width: 768px) {
+    .img-before-wrapper .img-before {
+        width: 100vw; /* Menyesuaikan lebar layar HP saat digeser */
+    }
+}
+
+.kotak-kaca {
+    background: rgba(255, 255, 255, 0.05); /* Putih sangat transparan */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* --- Desain Notifikasi Kustom (Efek Kaca) --- */
+.toast-notification {
+    position: fixed;
+    bottom: -100px; /* Tersembunyi di bawah layar saat awal */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.08); /* Efek kaca transparan */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 14px 28px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Kelas aktif saat notifikasi dimunculkan via JS */
+.toast-notification.show {
+    bottom: 40px; /* Naik melayang ke atas */
+    opacity: 1;
+}
+/* --- Desain Notifikasi Kustom (Efek Kaca) --- */
+.toast-notification {
+    position: fixed;
+    bottom: -100px; /* Tersembunyi di bawah layar saat awal */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.08); /* Efek kaca transparan */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 14px 28px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Kelas aktif saat notifikasi dimunculkan via JS */
+.toast-notification.show {
+    bottom: 40px; /* Naik melayang ke atas */
+    opacity: 1;
+}
+
+/* Mengubah scrollbar untuk seluruh halaman website */
+::-webkit-scrollbar {
+    width: 6px; /* Sangat tipis */
+}
+
+::-webkit-scrollbar-track {
+    background: #0d0d0d; /* Senada dengan background web */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #252525; /* Warna bar yang samar */
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #444444; /* Sedikit terang saat disentuh */
+}
+
+/* Membuat garis progress bar otomatis menggunakan animasi scroll murni CSS */
+@keyframes grow-progress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 3px; /* Ketebalan garis */
+    background: #ffffff; /* Warna putih minimalis */
+    z-index: 9999;
+    transform-origin: left;
+    animation: grow-progress auto linear;
+    animation-timeline: scroll(); /* Fitur CSS Modern modern untuk membaca scroll */
+}
+
+@keyframes shutterOpen {
+    from {
+        clip-path: inset(50% 0 50% 0); /* Tertutup di tengah */
+    }
+    to {
+        clip-path: inset(0 0 0 0); /* Terbuka penuh */
+    }
+}
+
+.hero h1 {
+    animation: shutterOpen 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.gallery-item { position: relative; }
+.like-btn {
+    position: absolute;
+    bottom: 15px; right: 15px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #333; color: #fff;
+    padding: 6px 12px; font-size: 0.8rem;
+    border-radius: 20px; cursor: pointer;
+    z-index: 5; display: flex; align-items: center; gap: 5px;
+    transition: all 0.2s;
+}
+/* Gaya visual ketika tombol hati sudah diklik */
+.like-btn.liked {
+    background: #ff3333; border-color: #ff3333;
+}
+
+/* --- Kontainer Utama Sosial Media --- */
+.social-links-container {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #222;
+    width: 100%;
+}
+
+.social-title {
+    font-size: 0.85rem;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* --- Mengunci Tombol Selalu Sejajar ke Samping di Semua Device --- */
+.social-buttons-grid {
+    display: grid;
+    /* Membagi 4 kolom sama rata secara absolut, tidak akan runtuh ke bawah */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 12px; 
+    width: 100%;
+    max-width: 600px; /* Batas lebar maksimal di laptop agar tidak terlalu panjang */
+    margin: 0 auto;   /* Memastikan posisi grid berada di tengah halaman */
+    box-sizing: border-box;
+}
+
+/* --- Desain Dasar Tombol --- */
+.social-btn {
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #222;
+    padding: 12px 10px; /* Padding atas-bawah longgar, kanan-kiri rapat */
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 4px;
+    text-align: center;
+    white-space: nowrap; /* Memaksa teks tetap satu baris, tidak boleh turun kebawah */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Jaga-jaga jika teks terlalu panjang di layar sangat kecil */
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- Efek Hover --- */
+.social-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.discord-btn:hover { border-color: #5865F2; color: #5865F2; }
+.linktree-btn:hover { border-color: #254B2F; color: #39E07F; }
+.instagram-btn:hover { border-color: #E1306C; color: #E1306C; }
+.tiktok-btn:hover { border-color: #00f2fe; color: #00f2fe; }
+
+/* --- OPTIMASI KHUSUS LAYAR HP (Mengecilkan Skala Secara Otomatis) --- */
+@media (max-width: 768px) {
+    .social-buttons-grid {
+        gap: 6px; /* Mempersempit jarak antar tombol di HP */
+        padding: 0 10px;
+    }
+    
+    .social-btn {
+        padding: 10px 4px; /* Rampingkan ruang tombol di HP agar muat */
+        font-size: 0.75rem; /* Kecilkan teks agar pas berjejer berempat di layar HP */
+    }
+}
+
+/* --- Gaya Desain Section About Me --- */
+.about-section {
+    padding: 100px 5%;
+    background-color: #0d0d0d;
+    border-top: 1px solid #1a1a1a;
+}
+
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 60px; /* Jarak antara foto dan teks penjelasan */
+}
+
+/* Sisi Foto */
+.about-image {
+    flex: 1;
+    max-width: 400px;
+    aspect-ratio: 3 / 4; /* Format potret meninggi yang elegan */
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%); /* Membuat foto profil senada hitam-putih */
+    transition: filter 0.5s ease;
+}
+
+.about-container:hover .about-image img {
+    filter: grayscale(30%); /* Sedikit memunculkan warna asli saat area dibaca */
+}
+
+/* Sisi Teks */
+.about-text {
+    flex: 1.2;
+    text-align: left;
+}
+
+.sub-title {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #ff3333; /* Warna merah aksen kamar gelap */
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.about-text p {
+    color: #aaa;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Grid Statistik Kecil */
+.about-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    border-top: 1px solid #222;
+    padding-top: 25px;
+}
+
+.stat-item h3 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 0.8rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* --- OPTIMASI RESPONSIF DI LAYAR HP --- */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column; /* Ditumpuk vertikal jika dibuka di HP */
+        gap: 35px;
+        text-align: center;
+    }
+
+    .about-image {
+        max-width: 280px; /* Perkecil ukuran foto profil di HP agar pas */
+        margin: 0 auto;
+    }
+
+    .about-text {
+        text-align: center; /* Rata tengah untuk teks di HP */
+    }
+
+    .about-text h2 {
+        font-size: 2rem;
+    }
+
+    .about-stats {
+        justify-content: center;
+        gap: 25px;
+    }
+}
+
+/* --- Estetika Teks Berjalan Khas Jalanan Kota --- */
+.marquee-wrapper {
+    width: 100%;
+    overflow: hidden; /* Sembunyikan teks yang tumpah ke luar layar */
+    background: #111111; /* Warna hitam abu-abu tipis untuk kontras */
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+    padding: 18px 0;
+    display: flex;
+    user-select: none;
+}
+
+.marquee-content {
+    display: flex;
+    width: max-content;
+}
+
+.marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    padding-right: 0;
+    /* Menjalankan animasi geser ke kiri tanpa putus selama 30 detik */
+    animation: scrollMarquee 30s linear infinite; 
+}
+
+.marquee-track span {
+    font-family: 'Courier New', Courier, monospace; /* Font mesin tik/industri */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #3a3a3a; /* Warna abu-abu redup agar minimalis dan tidak menusuk mata */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* --- LOGIKA ANIMASI GESER MURNI CSS (SUPER RINGAN) --- */
+@keyframes scrollMarquee {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        /* Menggeser tepat setengah panjang kontainer (karena teks digandakan) */
+        transform: translate3d(-100%, 0, 0); 
+    }
+}
+
+/* Sedikit memperkecil ukuran huruf saat dibuka di HP */
+@media (max-width: 768px) {
+    .marquee-wrapper {
+        padding: 14px 0;
+    }
+    .marquee-track span {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+}
+
+
+/* --- Gaya Desain Pop-up Sambutan (Glassmorphism) --- */
+.welcome-popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Latar belakang luar dibuat gelap redup */
+    z-index: 99999; /* Berada di atas seluruh elemen, termasuk kursor kustom jika ada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.welcome-popup-box {
+    background: rgba(255, 255, 255, 0.05); /* Efek kaca transparan */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Tombol Tutup X */
+.popup-close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    color: #888; font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.popup-close-btn:hover {
+    color: #ffffff;
+}
+
+/* Isi Konten */
+.popup-icon { font-size: 2.5rem; display: block; margin-bottom: 15px; }
+.popup-content h2 { font-size: 1.6rem; font-weight: 400; margin-bottom: 12px; letter-spacing: 1px; }
+.popup-content p { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin-bottom: 25px; }
+
+/* Animasi Garis Durasi Waktu (Countdown Bar) selama 5 detik */
+.popup-countdown-bar {
+    width: 100%; height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative; overflow: hidden;
+}
+.popup-countdown-bar::after {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #ff3333; /* Warna merah penanda durasi habis */
+    animation: countdown 10s linear forwards;
+    transform-origin: left;
+}
+
+@keyframes countdown {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+/* --- Kotak Kritik & Saran Melayang --- */
+.feedback-widget { 
+    position: fixed; 
+    bottom: 30px; 
+    left: 30px; 
+    z-index: 999; 
+    text-align: left;
+}
+
+.feedback-trigger { 
+    background: rgba(13, 13, 13, 0.85); 
+    color: #fff; 
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    padding: 10px 18px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-size: 0.8rem; 
+    font-weight: bold; 
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.feedback-trigger:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.feedback-box { 
+    background: rgba(13, 13, 13, 0.95); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    padding: 18px; 
+    border-radius: 8px; 
+    margin-bottom: 12px; 
+    width: 260px; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+.feedback-box h4 { 
+    font-size: 0.85rem; 
+    margin-bottom: 10px; 
+    font-weight: 500; 
+    color: #fff; 
+    letter-spacing: 0.5px;
+}
+
+.feedback-box textarea { 
+    width: 100%; 
+    background: #000000; 
+    border: 1px solid #222; 
+    color: #fff; 
+    padding: 10px; 
+    font-size: 0.8rem; 
+    resize: none; 
+    margin-bottom: 10px; 
+    outline: none; 
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.feedback-box textarea:focus {
+    border-color: #555;
+}
+
+.feedback-box button { 
+    background: #ffffff; 
+    color: #000000; 
+    border: none; 
+    padding: 8px 12px; 
+    font-size: 0.8rem; 
+    cursor: pointer; 
+    font-weight: 600; 
+    width: 100%; 
+    transition: background-color 0.2s;
+}
+
+.feedback-box button:hover { 
+    background: #cccccc; 
+}
+

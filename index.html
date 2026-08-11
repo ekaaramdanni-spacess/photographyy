@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreetPicturesPeople</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- Pop-up Sambutan Awal -->
+    <div id="welcome-popup" class="welcome-popup-overlay">
+        <div class="welcome-popup-box">
+            <!-- Tombol Tutup X -->
+            <button class="popup-close-btn" onclick="closeWelcomePopup()">&times;</button>
+            
+            <div class="popup-content">
+                <span class="popup-icon">📸</span>
+                <h2>Welcome to SP²</h2>
+                <p>Untuk pengalaman visual terbaik, mohon gulir halaman ini secara perlahan.</p>
+                <div class="popup-countdown-bar"></div> <!-- Garis loading indikator 5 detik -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="logo reveal-element">
+            <a style="text-decoration: none; color:#ffff;" href="index.html">SP²</a>
+        </div> 
+        <nav class="reveal-element">
+            <a href="#gallery">Portfolio</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header> 
+
+    <!-- Hero Section -->
+    <section class="hero reveal-element">
+        <h1>Captures The Memories With Uss.</h1>
+        <p>Esensi visual kehidupan kota, manusia, dan bayangan dalam bentuk paling murni.</p>
+    </section>
+
+    <!-- Kontainer Utama Slider Before/After -->
+    <div id="before-after-container" class="before-after-container reveal-element">
+        <!-- Foto HASIL EDIT (Background) -->
+         <p style="position: absolute; top: 10px; right: 10px; font-family: times-new-roman;">After</p>
+        <img src="img/IMG_9231.jpg" alt="Setelah Edit" class="img-after">
+        
+        <!-- Foto ASLI/RAW (Foreground) -->
+        <div class="img-before-wrapper" id="before-wrapper">
+            <p style="position: absolute; top: 10px; left: 10px; font-family: times-new-roman;">Before</p>
+            <img src="img/IMG_9231-2.jpg" alt="Sebelum Edit" class="img-before">
+        </div>
+
+        <!-- Garis Pembatas & Tombol Geser -->
+        <div class="slider-handle" id="slider-handle">
+            <div class="handle-button">↔</div>
+        </div>
+
+        <!-- Input Range Transparan untuk Kontrol Geser -->
+        <input type="range" min="0" max="100" value="50" class="slider-input" id="slider-input">
+    </div>
+
+        <!-- Section Tentang Saya -->
+    <section id="about" class="about-section">
+        <div class="about-container reveal-element">
+            <!-- Sisi Kiri: Foto Profil Fotografer -->
+            <div class="about-image">
+                <img src="img/IMG_9196.jpg" alt="Photographer Portrait">
+            </div>
+            
+            <!-- Sisi Kanan: Narasi & Deskripsi Jasa -->
+            <div class="about-text reveal-element">
+                <span class="sub-title">// THE STORYTELLER</span>
+                <h2>Behind the Lens</h2>
+                <p>Saya adalah seorang fotografer yang mendedikasikan waktu untuk mendokumentasikan momen-momen di ruang publik. Bagi saya, jalanan adalah panggung teater terbesar di dunia.</p>
+                <p>Saya berpengalaman sebagai dokumentasi acara-acara di sekolah selama 4 tahun dari kelas 9-12.</p>
+                
+                <!-- Info Statistik / Pencapaian Minimalis -->
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <h3>4+</h3>
+                        <p>Years Exp</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>1+</h3>
+                        <p>Street Projects</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100%</h3>
+                        <p>Passionate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kategori Filter -->
+    <div class="filter-container reveal-element">
+        <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+        <button class="filter-btn" onclick="filterGallery('Street')">street</button>
+        <button class="filter-btn" onclick="filterGallery('Event')">Event</button>
+        <button class="filter-btn" onclick="filterGallery('Candid')">Candid</button>
+        <button class="filter-btn" onclick="filterGallery('City')">City</button>
+    </div>
+
+    <!-- Galeri Portofolio -->
+    <section id="gallery" class="gallery-grid reveal-element">
+        <!-- Ganti atribut src & data-src dengan URL foto jalanan Anda sendiri -->
+        <div class="gallery-item Street Candid">
+            <img src="img/IMG_0255.jpg"  alt="images" loading="lazy">
+                <!-- Tombol Hati Interaktif, beri ID unik pada setiap data-id -->
+            <button class="like-btn" data-id="photo-01" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Street Candid">
+            <img src="img/IMG_0691.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Street">
+            <img src="img/IMG_0353.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+            </div>
+            <div class="gallery-item Event Candid">
+                <img src="img/IMG_1059.jpg"  alt="images" loading="lazy">
+                <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Event">
+            <img src="img/IMG_9304.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item City">
+            <img src="img/IMG_9256-2.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Street Candid">
+            <img src="img/IMG_0609.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+            </div>
+            <div class="gallery-item Street Candid">
+                <img src="img/IMG_0610.jpg"  alt="images" loading="lazy">
+                <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                    <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Candid">
+            <img src="img/IMG_9231.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+            </div>
+            <div class="gallery-item Candid">
+                <img src="img/IMG_9226.jpg"  alt="images" loading="lazy">
+                <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+            </div>
+            <div class="gallery-item Candid Event">
+                <img src="img/IMG_9314.jpg"  alt="images" loading="lazy">
+                <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+                <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Candid Event">
+            <img src="img/IMG_0972.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Candid Event">
+            <img src="img/IMG_1041.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Candid Event">
+            <img src="img/IMG_1087.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Candid Event">
+            <img src="img/IMG_5066.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+        <div class="gallery-item Event">
+            <img src="img/IMG_6936.jpg"  alt="images" loading="lazy">
+            <button class="like-btn" data-id="photo-02" onclick="toggleLike(event, this)">
+            <span class="heart-icon">♡</span> <span class="like-count">0</span>
+        </div>
+    </section>
+
+    <!-- Lightbox Pop-up -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-btn">&times;</span>
+        <img id="lightbox-img" src="" alt="Popup View">
+    </div>
+    
+    <!-- Kontainer Utama Teks Berjalan -->
+    <div class="marquee-wrapper reveal-element">
+        <div class="marquee-content">
+            <!-- Blok Teks 1 -->
+            <div class="marquee-track">
+                <span> kumpulan my hobby gweh • fotography • videography • desaign • turu • ngoding mereun • nganggur pasti • nonton dracin • ngedit, naon we nu bisa • nyieun JJ, jarang •&nbsp; </span>
+            </div>
+            <!-- Blok Teks 2 (Wajib digandakan agar saat teks habis, tidak ada celah kosong) -->
+            <div class="marquee-track">
+                <span> kumpulan my hobby gweh • fotography • videography • desaign • turu • ngoding mereun • nganggur pasti • nonton dracin • ngedit, naon we nu bisa • nyieun JJ, jarang •&nbsp; </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Kontak Sederhana -->
+    <section id="contact" class="contact-section reveal-element">
+        <div class="contact-container">
+            <h2>Let's Collaborate</h2>
+            <p>Tertarik untuk ber-kolaborasi? Hubungi saya.</p>
+            
+            <form id="discord-form" class="contact-form">
+                <!-- Pembungkus isi form agar bisa memudar saat sukses -->
+                <div class="form-inner-wrapper" id="form-content">
+                    <input type="text" id="contact-name" placeholder="Nama Anda" required>
+                    <input type="email" id="contact-email" placeholder="Email Anda" required>
+                    <textarea id="contact-message" rows="5" placeholder="Pesan atau detail proyek..." required></textarea>
+                    <button type="submit" class="submit-btn" id="submit-btn">Kirim Pesan</button>
+                </div>
+
+                <!-- TAMPILAN SUKSES KEREN (Default: Tersembunyi) -->
+                <div class="form-success-overlay" id="form-success">
+                    <div class="success-icon">✦</div>
+                    <h3>TRANSMISSION SENT</h3>
+                    <p>Pesan Anda berhasil menembus enkripsi. Saya akan menghubungi Anda dalam 1x24 jam.</p>
+                </div>
+            </form>
+            
+            <div class="social-links-container reveal-element">
+                <p class="social-title">Connect with me on other platforms:</p>
+                <div class="social-buttons-grid">
+                    <!-- Ganti tanda # dengan URL link asli Anda -->
+                    <a href="https://discord.gg/c2Crptcwx" target="_blank" class="social-btn discord-btn">
+                        <span>💬 Discord</span>
+                    </a>
+                    <a href="https://linktreesssss.netlify.app/" target="_blank" class="social-btn linktree-btn">
+                        <span>🌲 Linktree</span>
+                    </a>
+                    <a href="#" target="_blank" class="social-btn instagram-btn">
+                        <span>📸 Instagram</span>
+                    </a>
+                    <a href="https://www.tiktok.com/@eka.ramdani2007?is_from_webapp=1&sender_device=pc" target="_blank" class="social-btn tiktok-btn">
+                        <span>🎵 TikTok</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+    <script src="script.js"></script>
+</body>
+    <!-- Elemen Notifikasi Kustom (Efek Kaca) -->
+    <div id="custom-toast" class="toast-notification">
+        ⚠️ Gambar dilindungi hak cipta.
+    </div>
+
+    <!-- Kotak Kritik & Saran Anonim Instan -->
+    <div class="feedback-widget">
+        <button class="feedback-trigger" onclick="toggleFeedbackBox()">💬 Feedback</button>
+        <div id="feedback-box" class="feedback-box" style="display: none;">
+            <h4>Kritik & Saran Anonim</h4>
+            <textarea id="feedback-text" placeholder="Tulis masukan atau review foto Anda di sini..." rows="3"></textarea>
+            <button onclick="sendAnonymousFeedback()" id="feedback-send-btn">Kirim Masukan</button>
+        </div>
+    </div>
+
+</div>
+</html>
