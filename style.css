@@ -1063,3 +1063,58 @@ body::before {
     background: #cccccc; 
 }
 
+/* --- Section Khusus Discord Paling Bawah (Berdiri Sendiri) --- */
+.discord-footer-section {
+    padding: 60px 5% 100px 5%; /* Jarak longgar ke bawah menuju copyright footer */
+    background-color: #0d0d0d; /* Sewarna dengan background utama website agar minimalis */
+    border-top: 1px solid #161616; /* Garis pemisah tipis yang sangat halus */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.discord-footer-container {
+    max-width: 500px; /* Dibuat sedikit lebih ramping agar proporsinya manis di paling bawah */
+    width: 100%;
+    text-align: center;
+}
+
+.discord-footer-container h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+.discord-footer-container p {
+    color: #555555; /* Abu-abu lebih redup agar tidak mendominasi teks utama */
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Bingkai Pembungkus Iframe Discord */
+.discord-widget-wrapper {
+    width: 100%;
+    height: 350px;
+    background: #0f1115;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    box-sizing: border-box;
+}
+
+/* Optimasi Layar HP */
+@media (max-width: 768px) {
+    .discord-footer-section {
+        padding: 40px 5% 60px 5%;
+    }
+    .discord-widget-wrapper {
+        height: 380px;
+    }
+}
+
+
